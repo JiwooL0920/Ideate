@@ -5,15 +5,15 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.modules.project1 import project1_router
-from src.modules.project2 import project2_router
+from api.modules.WebSocket import websocket_router
+from api.modules.SSE import sse_router
 
 
 env = os.getenv("ENV", "local")
 
 app = FastAPI()
-app.include_router(project1_router, prefix="/project1", tags=["project1"])
-app.include_router(project2_router, prefix="/project2", tags=["project2"])
+app.include_router(websocket_router, prefix="/websocket", tags=["WebSocket"])
+app.include_router(sse_router, prefix="/sse", tags=["SSE"])
 
 origins = ["http://localhost:3000", "http://localhost:3000"]
 
