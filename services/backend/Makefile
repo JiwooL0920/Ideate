@@ -17,10 +17,11 @@ start-poetry:
 	poetry shell
 
 run:
+	source $(poetry env info --path)/bin/activate
 	. run.sh
 
 
 # docker
 image-local:
-	docker build --build-arg REGISTRY=python:3.10 -t $(TAG) .
+	docker build --build-arg REGISTRY=python:3.10.0-buster -t $(TAG) .
 
