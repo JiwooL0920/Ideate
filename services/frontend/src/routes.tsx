@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 const routes = [
     {
         path: "/",
-        element: <HomePage />
+        element: <HomePage />,
         name: "Home Page",
         navName: "HomePage",
         description: "This is the home page",
