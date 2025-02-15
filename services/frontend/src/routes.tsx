@@ -10,6 +10,69 @@ const routes = [
         img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
     },
     {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
+        path: "/",
+        element: <HomePage/>,
+        name: "HomePage",
+        description: "This is the home page",
+        img: "https://guitar.com/wp-content/uploads/2018/02/fretboard-notes-all@1500x600.jpg"
+    },
+    {
         path: "/WebSocket",
         element: <WebSocket/>,
         name: "WebSocket",
