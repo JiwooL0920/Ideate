@@ -4,6 +4,8 @@ import { RootState } from '../../redux/store';
 import * as sseSlice from '../../redux/slices/sseSlice';
 import NumberDropdown from './components/NumberDropdown';
 import SubmitButton from './components/SubmitButton';
+import TimesTable from './components/TimesTable';
+
 
 const SSE = () => {
     const sseState = useSelector<RootState, sseSlice.SSEState>(state => state.sse);
@@ -21,6 +23,7 @@ const SSE = () => {
                 onChange={handleNumberChange}
             />
             <SubmitButton />
+            <TimesTable />
         </div>
     );
 };

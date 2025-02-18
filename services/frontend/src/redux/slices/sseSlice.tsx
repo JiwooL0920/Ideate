@@ -7,10 +7,12 @@ import { statusBuilder } from '../utils/slices';
 // State
 export interface SSEState {
     number: number;
+    isStreaming: boolean;
 }
 
 const initialState: SSEState = {
     number: 5,
+    isStreaming: false,
 };
 
 
@@ -22,6 +24,9 @@ export const sseSlice = createSlice({
         reset: () => initialState,
         setNumber: (state, action: PayloadAction<number>) => {
             state.number = action.payload;
+        },
+        setStreaming: (state, action: PayloadAction<boolean>) => {
+            state.isStreaming = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -42,5 +47,9 @@ export const getTimesTable = createAsyncThunk<
 });
 
 
-export const { setNumber } = sseSlice.actions;
+export const { 
+    setNumber,
+    setStreaming
+} = sseSlice.actions;
+
 export default sseSlice.reducer;
