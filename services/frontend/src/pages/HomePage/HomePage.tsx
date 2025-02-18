@@ -1,9 +1,11 @@
 import React from 'react';
-import routes from '../../routes';
+import routes from '../../constants/routes';
+
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { ItemCard, itemCardProps } from './components/ItemCard';
+
 
 const HomePage = () => {
   return (

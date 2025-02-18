@@ -1,8 +1,8 @@
-import HomePage from "./pages/HomePage/HomePage";
-import WebSocket from "./pages/WebSocket/WebSocket";
-import SSE from "./pages/SSE/SSE";
-import ChatApp from "./pages/ChatApp/ChatApp";
-import Temporal from "./pages/Temporal/Temporal";
+import HomePage from "../pages/HomePage/HomePage";
+import WebSocket from "../pages/WebSocket/WebSocket";
+import SSE from "../pages/SSE/SSE";
+import ChatApp from "../pages/ChatApp/ChatApp";
+import Temporal from "../pages/Temporal/Temporal";
 
 const routes = [
     {

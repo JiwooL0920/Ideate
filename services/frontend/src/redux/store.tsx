@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 // Slices
-// import project1Slice from './project1Slice';
+import sseSlice from './slices/sseSlice';
 
 export const store = configureStore({
     reducer: {
-        // project1: project1Slice,
+        sse: sseSlice,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware({
