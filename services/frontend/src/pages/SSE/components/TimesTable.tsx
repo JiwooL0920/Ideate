@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 import { baseURL } from '../../../constants/requests';
-import { setStreaming } from '../../../redux/slices/sseSlice';
+import { setStreaming, clearEvents, addEvent } from '../../../redux/slices/sseSlice';
 import {
   Table,
   TableBody,
@@ -38,11 +38,17 @@ const TimesTable: React.FC = () => {
     if (isStreaming) {
       setProgress(0);
       setTableData({});
+      dispatch(clearEvents());
       eventSource = new EventSource(`${baseURL}/sse/${number}`);
       
       // Connection established
       eventSource.addEventListener('connected', (event) => {
         console.log('SSE Connection established:', event.data);
+        dispatch(addEvent({
+          type: 'connected',
+          data: event.data,
+          timestamp: new Date().toISOString()
+        }));
       });
 
       // Regular data messages
@@ -55,16 +61,31 @@ const TimesTable: React.FC = () => {
             [data.i]: data.result
           }
         }));
+        dispatch(addEvent({
+          type: 'message',
+          data: event.data,
+          timestamp: new Date().toISOString()
+        }));
       };
 
       // Progress updates
       eventSource.addEventListener('progress', (event) => {
         setProgress(parseFloat(event.data));
+        dispatch(addEvent({
+          type: 'progress',
+          data: event.data,
+          timestamp: new Date().toISOString()
+        }));
       });
 
       // Stream completion
       eventSource.addEventListener('complete', (event) => {
         console.log('SSE Stream completed:', event.data);
+        dispatch(addEvent({
+          type: 'complete',
+          data: event.data,
+          timestamp: new Date().toISOString()
+        }));
         dispatch(setStreaming(false)); // Set streaming to false on completion
         eventSource?.close();
       });
@@ -72,6 +93,11 @@ const TimesTable: React.FC = () => {
       // Error handling
       eventSource.addEventListener('error', (event) => {
         console.error('SSE Error:', event);
+        dispatch(addEvent({
+          type: 'error',
+          data: 'Connection error',
+          timestamp: new Date().toISOString()
+        }));
         dispatch(setStreaming(false)); // Also set streaming to false on error
         eventSource?.close();
       });

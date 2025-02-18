@@ -5,7 +5,7 @@ import * as sseSlice from '../../redux/slices/sseSlice';
 import NumberDropdown from './components/NumberDropdown';
 import SubmitButton from './components/SubmitButton';
 import TimesTable from './components/TimesTable';
-
+import EventLog from './components/EventLog';
 
 const SSE = () => {
     const sseState = useSelector<RootState, sseSlice.SSEState>(state => state.sse);
@@ -24,6 +24,7 @@ const SSE = () => {
             />
             <SubmitButton />
             <TimesTable />
+            <EventLog />
         </div>
     );
 };

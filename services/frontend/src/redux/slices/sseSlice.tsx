@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { controllersAPI } from '../../constants/requests';
-import { TimesTableRequest, TimesTableResponse } from '../interfaces/sse';
+import { TimesTableRequest, TimesTableResponse, SSEEvent } from '../interfaces/sse';
 import { statusBuilder } from '../utils/slices';
 
 
@@ -8,11 +8,13 @@ import { statusBuilder } from '../utils/slices';
 export interface SSEState {
     number: number;
     isStreaming: boolean;
+    events: SSEEvent[];
 }
 
 const initialState: SSEState = {
     number: 5,
     isStreaming: false,
+    events: [],
 };
 
 
@@ -24,9 +26,16 @@ export const sseSlice = createSlice({
         reset: () => initialState,
         setNumber: (state, action: PayloadAction<number>) => {
             state.number = action.payload;
+            state.events = []; // Clear events when number changes
         },
         setStreaming: (state, action: PayloadAction<boolean>) => {
             state.isStreaming = action.payload;
+        },
+        addEvent: (state, action: PayloadAction<SSEEvent>) => {
+            state.events.push(action.payload);
+        },
+        clearEvents: (state) => {
+            state.events = [];
         }
     },
     extraReducers: (builder) => {
@@ -49,7 +58,9 @@ export const getTimesTable = createAsyncThunk<
 
 export const { 
     setNumber,
-    setStreaming
+    setStreaming,
+    addEvent,
+    clearEvents
 } = sseSlice.actions;
 
 export default sseSlice.reducer;

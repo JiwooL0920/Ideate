@@ -16,3 +16,9 @@ export interface TimesTableResponse {
     i: number;
     result: number;
 }
+
+export interface SSEEvent {
+    type: string;
+    data: string;
+    timestamp: string;
+}
