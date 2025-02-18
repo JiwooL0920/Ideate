@@ -12,33 +12,33 @@ async def get_times_table(number: int):
         total_items = number * number
         current_item = 0
         
-        # Send initial connection event
         yield "event: connected\ndata: Connection established\n\n"
         
         for n in range(1, number+1):
             for i in range(1, number+1):
-                current_item += 1
-                response = TimesTableResponse(
-                    number=n,
-                    i=i,
-                    result=n*i,
-                )
-                # Send progress first
-                yield f"event: progress\ndata: {(current_item/total_items)*100}\n\n"
-                # Then send data with small delay
-                yield f"data: {response.json()}\n\n"
-                # Add proper delay between iterations
-                await asyncio.sleep(0.05)  # 50ms delay
-        
-        # Send completion event
+                try:
+                    current_item += 1
+                    response = TimesTableResponse(
+                        number=n,
+                        i=i,
+                        result=n*i,
+                    )
+                    yield f"event: progress\ndata: {(current_item/total_items)*100}\n\n"
+                    yield f"data: {response.json()}\n\n"
+                    await asyncio.sleep(0.05)  # Small delay to prevent overwhelming
+                except ConnectionResetError:
+                    logger.warning("Client disconnected, attempting to maintain state")
+                    await asyncio.sleep(1)  # Wait before retry
+                    continue
+
         yield "event: complete\ndata: Stream completed\n\n"
         logger.info(f"SSE stream completed for number: {number}")
         
     except Exception as e:
         logger.error(f"Error in SSE stream for number {number}: {str(e)}")
         yield f"event: error\ndata: {str(e)}\n\n"
-        raise
     
+
     finally:
         logger.info(f"SSE connection closed for number: {number}")
 

@@ -23,6 +23,7 @@ async def stream_events(number: int):
         headers={
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
         },
     )
 

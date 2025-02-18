@@ -36,6 +36,7 @@ const TimesTable: React.FC = () => {
     let eventSource: EventSource | null = null;
     let eventQueue: Array<{ type: string; data: any }> = [];
     let animationFrameId: number;
+    let keepAliveInterval: NodeJS.Timeout;
 
     const processEventQueue = () => {
       const BATCH_SIZE = 10;
@@ -60,7 +61,17 @@ const TimesTable: React.FC = () => {
             }
           }));
         } else if (event.type === 'progress') {
-          setProgress(parseFloat(event.data));
+          const progressValue = parseFloat(event.data);
+          setProgress(progressValue);
+          
+          // Terminate when progress reaches 100%
+          if (progressValue >= 100) {
+            dispatch(setStreaming(false));
+            eventSource?.close();
+            if (keepAliveInterval) {
+              clearInterval(keepAliveInterval);
+            }
+          }
         }
       });
 
@@ -69,14 +80,48 @@ const TimesTable: React.FC = () => {
       }
     };
 
-    if (isStreaming) {
-      setProgress(0);
-      setTableData({});
-      dispatch(clearEvents());
-      eventSource = new EventSource(`${baseURL}/sse/${number}`);
-      
-      // Connection established
-      eventSource.addEventListener('connected', (event) => {
+    // Define handleVisibilityChange before using it
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Only start keep-alive if we're streaming
+        if (isStreaming) {
+          keepAliveInterval = setInterval(() => {
+            if (!isStreaming) {
+              clearInterval(keepAliveInterval);
+              return;
+            }
+
+            // Check connection state
+            if (eventSource?.readyState !== EventSource.OPEN) {
+              console.log('Connection lost in background, reconnecting...');
+              eventSource?.close();
+              eventSource = new EventSource(`${baseURL}/sse/${number}`, {
+                withCredentials: true
+              });
+              attachEventListeners(eventSource);
+            }
+          }, 1000); // Check more frequently
+        }
+      } else {
+        // Tab is visible again
+        if (keepAliveInterval) {
+          clearInterval(keepAliveInterval);
+        }
+        // Verify connection state when coming back to tab
+        if (isStreaming && eventSource?.readyState !== EventSource.OPEN) {
+          console.log('Reconnecting on tab focus...');
+          eventSource?.close();
+          eventSource = new EventSource(`${baseURL}/sse/${number}`, {
+            withCredentials: true
+          });
+          attachEventListeners(eventSource);
+        }
+      }
+    };
+
+    // Helper function to attach all event listeners
+    const attachEventListeners = (source: EventSource) => {
+      source.addEventListener('connected', (event) => {
         console.log('SSE Connection established:', event.data);
         dispatch(addEvent({
           type: 'connected',
@@ -85,45 +130,49 @@ const TimesTable: React.FC = () => {
         }));
       });
 
-      // Regular data messages
-      eventSource.onmessage = (event) => {
+      source.onmessage = (event) => {
         eventQueue.push({ type: 'message', data: event.data });
         if (eventQueue.length === 1) {
           animationFrameId = requestAnimationFrame(processEventQueue);
         }
       };
 
-      // Progress updates
-      eventSource.addEventListener('progress', (event) => {
+      source.addEventListener('progress', (event) => {
         eventQueue.push({ type: 'progress', data: event.data });
         if (eventQueue.length === 1) {
           animationFrameId = requestAnimationFrame(processEventQueue);
         }
       });
 
-      // Stream completion
-      eventSource.addEventListener('complete', (event) => {
-        console.log('SSE Stream completed:', event.data);
+      source.addEventListener('complete', (event) => {
+        console.log('Stream completed');
         dispatch(addEvent({
           type: 'complete',
           data: event.data,
           timestamp: new Date().toISOString()
         }));
-        dispatch(setStreaming(false)); // Set streaming to false on completion
-        eventSource?.close();
+        // Only close and cleanup if we're actually done
+        if (!document.hidden) {
+          dispatch(setStreaming(false));
+          source.close();
+          if (keepAliveInterval) {
+            clearInterval(keepAliveInterval);
+          }
+        }
+      });
+    };
+
+    if (isStreaming) {
+      setProgress(0);
+      setTableData({});
+      dispatch(clearEvents());
+      
+      eventSource = new EventSource(`${baseURL}/sse/${number}`, {
+        withCredentials: true
       });
 
-      // Error handling
-      eventSource.addEventListener('error', (event) => {
-        console.error('SSE Error:', event);
-        dispatch(addEvent({
-          type: 'error',
-          data: 'Connection error',
-          timestamp: new Date().toISOString()
-        }));
-        dispatch(setStreaming(false)); // Also set streaming to false on error
-        eventSource?.close();
-      });
+      attachEventListeners(eventSource);
+      document.addEventListener('visibilitychange', handleVisibilityChange);
     }
 
     return () => {
@@ -134,6 +183,10 @@ const TimesTable: React.FC = () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
+      if (keepAliveInterval) {
+        clearInterval(keepAliveInterval);
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [number, isStreaming, dispatch]);
 
