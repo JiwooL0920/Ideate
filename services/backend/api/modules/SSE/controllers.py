@@ -7,7 +7,7 @@ async def get_times_table(number: int):
 
     for n in range(1, number+1):
         for i in range(1, 11):
-            respponse = TimesTableResponse(
+            response = TimesTableResponse(
                 number=n,
                 i=i,
                 result=n*i,

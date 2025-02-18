@@ -15,7 +15,7 @@ const SSE = () => {
 
     return (
         <div>
-            <h1>this is SSE page</h1>
+            <h1>This is SSE page</h1>
             <NumberDropdown 
                 value={sseState.number}
                 onChange={handleNumberChange}
