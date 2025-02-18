@@ -43,14 +43,13 @@ const TimesTable: React.FC = () => {
       const batch = eventQueue.splice(0, BATCH_SIZE);
       
       batch.forEach(event => {
-        // Log every event first
         dispatch(addEvent({
           type: event.type,
           data: event.data,
           timestamp: new Date().toISOString()
         }));
 
-        // Then process the event
+        // Process events regardless of visibility
         if (event.type === 'message') {
           const data = JSON.parse(event.data);
           setTableData(prev => ({
@@ -64,7 +63,6 @@ const TimesTable: React.FC = () => {
           const progressValue = parseFloat(event.data);
           setProgress(progressValue);
           
-          // Terminate when progress reaches 100%
           if (progressValue >= 100) {
             dispatch(setStreaming(false));
             eventSource?.close();
@@ -75,23 +73,29 @@ const TimesTable: React.FC = () => {
         }
       });
 
+      // Use setTimeout instead of requestAnimationFrame for background processing
       if (eventQueue.length > 0) {
-        animationFrameId = requestAnimationFrame(processEventQueue);
+        if (document.hidden) {
+          setTimeout(processEventQueue, 100);
+        } else {
+          animationFrameId = requestAnimationFrame(processEventQueue);
+        }
       }
     };
 
-    // Define handleVisibilityChange before using it
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Only start keep-alive if we're streaming
         if (isStreaming) {
+          // Process queue immediately when hidden
+          if (eventQueue.length > 0) {
+            setTimeout(processEventQueue, 100);
+          }
+          
           keepAliveInterval = setInterval(() => {
             if (!isStreaming) {
               clearInterval(keepAliveInterval);
               return;
             }
-
-            // Check connection state
             if (eventSource?.readyState !== EventSource.OPEN) {
               console.log('Connection lost in background, reconnecting...');
               eventSource?.close();
@@ -100,21 +104,15 @@ const TimesTable: React.FC = () => {
               });
               attachEventListeners(eventSource);
             }
-          }, 1000); // Check more frequently
+          }, 1000);
         }
       } else {
-        // Tab is visible again
         if (keepAliveInterval) {
           clearInterval(keepAliveInterval);
         }
-        // Verify connection state when coming back to tab
-        if (isStreaming && eventSource?.readyState !== EventSource.OPEN) {
-          console.log('Reconnecting on tab focus...');
-          eventSource?.close();
-          eventSource = new EventSource(`${baseURL}/sse/${number}`, {
-            withCredentials: true
-          });
-          attachEventListeners(eventSource);
+        // Resume animation frame processing when visible
+        if (eventQueue.length > 0) {
+          animationFrameId = requestAnimationFrame(processEventQueue);
         }
       }
     };

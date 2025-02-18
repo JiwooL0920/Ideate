@@ -24,6 +24,7 @@ async def get_times_table(number: int):
                         result=n*i,
                     )
                     yield f"event: progress\ndata: {(current_item/total_items)*100}\n\n"
+                    print(f"data: {response.json()}\n\n")
                     yield f"data: {response.json()}\n\n"
                     await asyncio.sleep(0.05)  # Small delay to prevent overwhelming
                 except ConnectionResetError:
