@@ -31,11 +31,13 @@ export const sseSlice = createSlice({
 
 
 // API Calls
+const sseBaseURL = '/sse';
+
 export const getTimesTable = createAsyncThunk<
     TimesTableResponse,
     TimesTableRequest 
 >('sse', async (req: TimesTableRequest) => {
-    const response = await controllersAPI.get(`/${req.number}`);
+    const response = await controllersAPI.get(`${sseBaseURL}/${req.number}`);
     return response.data;
 });
 

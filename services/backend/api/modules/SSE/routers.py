@@ -15,10 +15,10 @@ def health():
     return {"message": "SSE API"}
 
 
-@router.post("")
-async def stream_events(req: TimesTableReqeust):
+@router.get("/{number}")
+async def stream_events(number: int):
     return StreamingResponse(
-        get_times_table(req.number),
+        get_times_table(number),
         media_type="text/event-stream",
         headers={
             "Cache-Control": "no-cache",
