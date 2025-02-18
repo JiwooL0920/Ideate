@@ -23,10 +23,12 @@ async def get_times_table(number: int):
                     i=i,
                     result=n*i,
                 )
-                # Send data and progress in separate events
+                # Send progress first
                 yield f"event: progress\ndata: {(current_item/total_items)*100}\n\n"
+                # Then send data with small delay
                 yield f"data: {response.json()}\n\n"
-                await asyncio.sleep(0.1)
+                # Add proper delay between iterations
+                await asyncio.sleep(0.05)  # 50ms delay
         
         # Send completion event
         yield "event: complete\ndata: Stream completed\n\n"

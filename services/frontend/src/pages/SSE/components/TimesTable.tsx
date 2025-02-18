@@ -34,6 +34,40 @@ const TimesTable: React.FC = () => {
 
   useEffect(() => {
     let eventSource: EventSource | null = null;
+    let eventQueue: Array<{ type: string; data: any }> = [];
+    let animationFrameId: number;
+
+    const processEventQueue = () => {
+      const BATCH_SIZE = 10;
+      const batch = eventQueue.splice(0, BATCH_SIZE);
+      
+      batch.forEach(event => {
+        // Log every event first
+        dispatch(addEvent({
+          type: event.type,
+          data: event.data,
+          timestamp: new Date().toISOString()
+        }));
+
+        // Then process the event
+        if (event.type === 'message') {
+          const data = JSON.parse(event.data);
+          setTableData(prev => ({
+            ...prev,
+            [data.number]: {
+              ...(prev[data.number] || {}),
+              [data.i]: data.result
+            }
+          }));
+        } else if (event.type === 'progress') {
+          setProgress(parseFloat(event.data));
+        }
+      });
+
+      if (eventQueue.length > 0) {
+        animationFrameId = requestAnimationFrame(processEventQueue);
+      }
+    };
 
     if (isStreaming) {
       setProgress(0);
@@ -53,29 +87,18 @@ const TimesTable: React.FC = () => {
 
       // Regular data messages
       eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setTableData(prev => ({
-          ...prev,
-          [data.number]: {
-            ...(prev[data.number] || {}),
-            [data.i]: data.result
-          }
-        }));
-        dispatch(addEvent({
-          type: 'message',
-          data: event.data,
-          timestamp: new Date().toISOString()
-        }));
+        eventQueue.push({ type: 'message', data: event.data });
+        if (eventQueue.length === 1) {
+          animationFrameId = requestAnimationFrame(processEventQueue);
+        }
       };
 
       // Progress updates
       eventSource.addEventListener('progress', (event) => {
-        setProgress(parseFloat(event.data));
-        dispatch(addEvent({
-          type: 'progress',
-          data: event.data,
-          timestamp: new Date().toISOString()
-        }));
+        eventQueue.push({ type: 'progress', data: event.data });
+        if (eventQueue.length === 1) {
+          animationFrameId = requestAnimationFrame(processEventQueue);
+        }
       });
 
       // Stream completion
@@ -107,6 +130,9 @@ const TimesTable: React.FC = () => {
       if (eventSource) {
         console.log('Closing SSE connection');
         eventSource.close();
+      }
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
     };
   }, [number, isStreaming, dispatch]);
