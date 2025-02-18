@@ -34,8 +34,21 @@ const EventLog: React.FC = () => {
     }, [events, selectedType]);
 
     return (
-        <Paper sx={{ mt: 2, p: 2, maxHeight: '400px', overflow: 'auto' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Paper sx={{ 
+            mt: 2, 
+            height: 'calc(100% - 16px)', // Full height minus margin-top
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden' // Prevent Paper overflow
+        }}>
+            <Box sx={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                mb: 2,
+                px: 2,
+                pt: 2
+            }}>
                 <Typography variant="h6">
                     Event Log
                 </Typography>
@@ -54,13 +67,28 @@ const EventLog: React.FC = () => {
                     </Select>
                 </FormControl>
             </Box>
-            <TableContainer>
-                <Table size="small" stickyHeader>
+            <TableContainer 
+                sx={{ 
+                    flexGrow: 1,
+                    overflow: 'auto',
+                    '&::-webkit-scrollbar': {
+                        width: '8px',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                        backgroundColor: 'background.paper',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: 'grey.400',
+                        borderRadius: '4px',
+                    },
+                }}
+            >
+                <Table size="small" stickyHeader sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Type</TableCell>
-                            <TableCell>Data</TableCell>
-                            <TableCell>Time</TableCell>
+                            <TableCell width="15%">Type</TableCell>
+                            <TableCell width="70%">Data</TableCell>
+                            <TableCell width="15%">Time</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -71,7 +99,10 @@ const EventLog: React.FC = () => {
                                 <TableCell 
                                     sx={{ 
                                         fontWeight: 'medium',
-                                        color: event.type === 'error' ? 'error.main' : 'inherit'
+                                        color: event.type === 'error' ? 'error.main' : 'inherit',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
                                     }}
                                 >
                                     {event.type}
@@ -84,13 +115,22 @@ const EventLog: React.FC = () => {
                                             fontSize: '0.75rem',
                                             fontFamily: 'monospace',
                                             whiteSpace: 'pre-wrap',
-                                            wordBreak: 'break-all'
+                                            wordBreak: 'break-word',
+                                            overflowX: 'hidden'
                                         }}
                                     >
                                         {event.data}
                                     </Box>
                                 </TableCell>
-                                <TableCell>{new Date(event.timestamp).toLocaleTimeString()}</TableCell>
+                                <TableCell 
+                                    sx={{ 
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis'
+                                    }}
+                                >
+                                    {new Date(event.timestamp).toLocaleTimeString()}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
