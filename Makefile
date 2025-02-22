@@ -3,6 +3,12 @@ clean:
 	docker system prune -f && \
 	docker volume prune -f
 
+all:
+	docker-compose \
+	-f docker-compose.backend.yml \
+	-f docker-compose.database.yml \
+	up --build
+
 be:
 	docker-compose -f docker-compose.backend.yml up --build
 
