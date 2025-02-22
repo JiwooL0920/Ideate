@@ -1,13 +1,13 @@
 clean:
-	docker stop $(duso docker ps -a -q) && \
+	docker stop $$(docker ps -a -q) && \
 	docker system prune -f && \
 	docker volume prune -f
 
-run-be:
-	@trap 'docker-compose -f docker-compose.backend.yml down' EXIT; \
+be:
 	docker-compose -f docker-compose.backend.yml up --build
 
-run-fe:
-	@trap 'docker-compose -f docker-compose.frontend.yml down' EXIT; \
+fe:
 	docker-compose -f docker-compose.frontend.yml up --build
 
+db:
+	docker-compose -f docker-compose.database.yml up --build

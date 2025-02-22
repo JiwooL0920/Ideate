@@ -11,8 +11,8 @@ class Settings(BaseSettings):
 
     ROOT_DIR: Path = Path(__file__).parent.parent / "api"
 
-    APP_ENV: str = os.getenv("ENV", "local")
-    DEV_MODE: bool = APP_ENV == "local"
+    APP_ENV: str = os.getenv("ENV", "dev")
+    DEV_MODE: bool = True 
     TEST_MODE: bool = False
 
     class Config:
