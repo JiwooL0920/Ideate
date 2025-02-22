@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  backend:
+    platform: linux/x86_64
+    build:
+      context: ./services/backend
+      args:
+        - DOCKER_BUILDKIT=1
+        - REGISTRY=python:3.10.0-buster # use public img for now
+    image: ideate-be
+    command: >
+      /bin/bash -c "uvicorn --host 0.0.0.0 api.server.main:app --port 8000"
+    ports:
+      - "8000:8000"
+    restart: on-failure
