@@ -5,15 +5,15 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.modules.WebSocket import websocket_router
 from api.modules.SSE import sse_router
+from api.modules.ChatApp import chatapp_router
 
 
 env = os.getenv("ENV", "local")
 
 app = FastAPI()
-app.include_router(websocket_router, prefix="/websocket", tags=["WebSocket"])
 app.include_router(sse_router, prefix="/sse", tags=["SSE"])
+app.include_router(chatapp_router, prefix="/chatapp", tags=["ChatApp"])
 
 origins = ["http://localhost:3000", "http://localhost:3000"]
 
