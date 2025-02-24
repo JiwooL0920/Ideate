@@ -1,14 +1,13 @@
-version: "3.7"
-
 services:
-  frontend:
+  client:
     build:
       context: ./services/frontend
       dockerfile: Dockerfile.local
-    image: frontend
+    image: client 
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - controller 
     links:
-      - backend
+      - controller 
+
