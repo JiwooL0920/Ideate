@@ -8,7 +8,7 @@ class Repository:
 
     def __init__(self, session: AsyncSession):
         """Initialize the repository"""
-        
+
         self.session = session
 
     async def execute(self, *args):

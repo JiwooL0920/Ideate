@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.modules.SSE import sse_router
 from api.modules.ChatApp import chatapp_router
+from api.modules.Auth import auth_router
 
 
 env = os.getenv("ENV", "local")
@@ -14,6 +15,7 @@ env = os.getenv("ENV", "local")
 app = FastAPI()
 app.include_router(sse_router, prefix="/sse", tags=["SSE"])
 app.include_router(chatapp_router, prefix="/chatapp", tags=["ChatApp"])
+app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 
 origins = ["http://localhost:3000", "http://localhost:3000"]
 
@@ -30,5 +32,5 @@ def health():
     return {"status": "ok"}
 
 # For deployment only
-if not env == "local":
-    app.mound("/static", StaticFiles(directory="frontend/build"), name="static")
+if not env == "dev":
+    app.mount("/static", StaticFiles(directory="frontend/build"), name="static")

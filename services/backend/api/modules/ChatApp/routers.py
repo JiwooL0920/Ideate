@@ -6,6 +6,6 @@ router = APIRouter(prefix="", tags=["ChatApp"])
 
 
 @router.get("/health")
-def project1(request: Request):
+def chatapp_health(request: Request):
     return {"message": "ChatApp API"}
 

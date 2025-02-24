@@ -10,7 +10,6 @@ all:
 	docker-compose \
 	-f docker-compose.controller.yml \
 	-f docker-compose.database.yml \
-	-f docker-compose.client.yml \
 	up --build
 
 svc:
@@ -27,7 +26,7 @@ db:
 
 # for local dev
 connect-db:
-	docker exec -it postgres_dev psql -U ideate_master -d ideate_db
+	docker exec -it postgres_db psql -U ideate_master -d ideate_db
 
 exec-db:
 	docker exec -it postgres_dev psql -U ideate_master -d ideate_db -c "$(query)"

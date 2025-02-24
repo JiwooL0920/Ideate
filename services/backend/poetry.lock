@@ -42,6 +42,30 @@ test = ["anyio", "coverage[toml] (>=7)", "exceptiongroup (>=1.2.0)", "hypothesis
 doc = ["packaging", "Sphinx (>=7.4,<8.0)", "sphinx-rtd-theme", "sphinx-autodoc-typehints (>=1.2.0)"]
 
 [[package]]
+name = "async-timeout"
+version = "5.0.1"
+description = "Timeout context manager for asyncio programs"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[[package]]
+name = "asyncpg"
+version = "0.30.0"
+description = "An asyncio PostgreSQL driver"
+category = "main"
+optional = false
+python-versions = ">=3.8.0"
+
+[package.dependencies]
+async-timeout = {version = ">=4.0.3", markers = "python_version < \"3.11.0\""}
+
+[package.extras]
+docs = ["Sphinx (>=8.1.3,<8.2.0)", "sphinx-rtd-theme (>=1.2.2)"]
+gssauth = ["gssapi", "sspilib"]
+test = ["flake8 (>=6.1,<7.0)", "flake8-pyi (>=24.1.0,<24.2.0)", "distro (>=1.9.0,<1.10.0)", "mypy (>=1.8.0,<1.9.0)", "uvloop (>=0.15.3)", "gssapi", "k5test", "sspilib"]
+
+[[package]]
 name = "atomicwrites"
 version = "1.4.1"
 description = "Atomic file writes."
@@ -365,12 +389,14 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b40e6724c57b3efacfce412c97059655bedd2710956d69b2734b4b1efed3153a"
+content-hash = "64861869b4d87f2642bee28862ff173c853af01bd398417354195060fd65823f"
 
 [metadata.files]
 alembic = []
 annotated-types = []
 anyio = []
+async-timeout = []
+asyncpg = []
 atomicwrites = []
 attrs = []
 click = []
