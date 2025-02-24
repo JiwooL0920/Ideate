@@ -18,7 +18,7 @@ fe:
 db:
 	docker-compose -f docker-compose.database.yml up --build
 
-# local dev
+# for local dev
 connect-db:
 	docker exec -it postgres_dev psql -U ideate_master -d ideate_db
 
