@@ -30,9 +30,11 @@ async def get_async_db_session():
     if DB_SESSION_MAKER is None:
         DB_SESSION_MAKER = get_async_session()
 
+    schema = os.getenv("POSTGRES_SCHEMA", "dev")
+    print("schema: ", schema)
     async with DB_SESSION_MAKER() as session:
         await session.execute(
-            text(f"SET search_path TO {os.getenv('IDEATE_SCHEMA')};")
+            text(f"SET search_path TO {schema};")
         )
         print("Got session")
         yield session

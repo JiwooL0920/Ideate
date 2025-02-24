@@ -11,13 +11,13 @@ from database.entities.base import Base
 
 load_dotenv()
 POSTGRES_CONNECTION_STRING=os.getenv("POSTGRES_CONNECTION_STRING")
-IDEATE_SCHEMA=os.getenv("IDEATE_SCHEMA")
+POSTGRES_SCHEMA=os.getenv("POSTGRES_SCHEMA")
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 config.set_main_option("sqlalchemy.url", POSTGRES_CONNECTION_STRING)
-schema_name = IDEATE_SCHEMA
+schema_name = POSSTGRES_SCHEMA
 
 print("POSTGRES_CONNECTION_STRING", POSTGRES_CONNECTION_STRING)
 print("schema_name", schema_name)
@@ -33,7 +33,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
-print("target metadata", target_metadata) 
+print("target metadata", target_metadata)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
