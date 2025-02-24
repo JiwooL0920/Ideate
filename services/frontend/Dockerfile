@@ -1,14 +1,23 @@
-FROM node:latest
+# Build FE
+FROM node:18-alpine as builder
 
 WORKDIR /app
 
-COPY ../. ./
-COPY ../.env.default .env
-
+COPY package*.json ./
 RUN npm install
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
+COPY . .
+RUN npm run build
 
-EXPOSE 3000
+# Serve with nginx
+FROM nginx:alpine
 
-CMD ["npm", "start"]
+# COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder ./app/build /bin/www
+COPY --from=builder ./app/.env /bin/www/.env
+
+copy nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
