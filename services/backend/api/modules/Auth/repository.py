@@ -35,7 +35,6 @@ class UserRepository(Repository):
         if not result:
             return None
 
-        print("result: ", result)
         return result
 
 

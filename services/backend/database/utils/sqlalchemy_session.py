@@ -14,7 +14,6 @@ def get_async_session():
     """Return async session maker instance"""
 
     url = os.getenv("ASYNC_POSTGRES_CONNECTION_STRING")
-    print("\n\n\nurl ", url, "\n\n\n")
     engine = create_async_engine(url)
     return sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
@@ -31,10 +30,9 @@ async def get_async_db_session():
         DB_SESSION_MAKER = get_async_session()
 
     schema = os.getenv("POSTGRES_SCHEMA", "dev")
-    print("schema: ", schema)
     async with DB_SESSION_MAKER() as session:
         await session.execute(
             text(f"SET search_path TO {schema};")
         )
-        print("Got session")
+        print(f"Got session. Schema: {schema}")
         yield session

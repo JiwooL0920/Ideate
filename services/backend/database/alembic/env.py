@@ -19,8 +19,8 @@ config = context.config
 config.set_main_option("sqlalchemy.url", POSTGRES_CONNECTION_STRING)
 schema_name = POSSTGRES_SCHEMA
 
-print("POSTGRES_CONNECTION_STRING", POSTGRES_CONNECTION_STRING)
-print("schema_name", schema_name)
+# print("POSTGRES_CONNECTION_STRING", POSTGRES_CONNECTION_STRING)
+# print("schema_name", schema_name)
 
 
 # Interpret the config file for Python logging.
@@ -33,7 +33,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
-print("target metadata", target_metadata)
+# print("target metadata", target_metadata)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
