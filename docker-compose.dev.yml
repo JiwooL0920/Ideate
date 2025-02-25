@@ -1,0 +1,13 @@
+# to be able to run api in hot-reload mode
+
+services:
+  controller:
+    command:
+      - /bin/bash
+      - -c
+      - |
+        uvicorn --host 0.0.0.0 api.server.main:app --port 8000 --reload
+    volumes:
+      # mount the local repo in the container
+      # - ${LOCAL_REPO_PATH}:/app
+      - /home/jiwool0920/Ideate:/app
