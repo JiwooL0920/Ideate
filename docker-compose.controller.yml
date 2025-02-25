@@ -7,6 +7,8 @@ services:
         - DOCKER_BUILDKIT=1
         - REGISTRY=python:3.10.0-buster # use public img for now
     image: controller 
+    environment:
+      - PYTHONPATH=/app/services/backend
     command: >
       /bin/bash -c "uvicorn --host 0.0.0.0 api.server.main:app --port 8000"
     ports:

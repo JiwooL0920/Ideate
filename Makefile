@@ -9,11 +9,13 @@ clean:
 all:
 	docker-compose \
 	-f docker-compose.controller.yml \
+	-f docker-compose.dev.yml \
 	-f docker-compose.database.yml \
+	-f docker-compose.client.yml \
 	up --build
 
-svc:
-	docker-compose -f docker-compose.services.yml up --build
+dev:
+	docker-compose -f docker-compose.dev.yml up --build
 
 be:
 	docker-compose -f docker-compose.controller.yml up --build

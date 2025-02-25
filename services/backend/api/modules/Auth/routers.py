@@ -7,6 +7,7 @@ from .service import AuthServiceDep
 
 router = APIRouter(prefix="", tags=["Auth"])
 
+
 @router.get("/health")
 def auth_health(request: Request):
     return {"message": "Auth API"}
