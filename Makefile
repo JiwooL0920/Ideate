@@ -10,6 +10,7 @@ all:
 	docker-compose \
 	-f docker-compose.controller.yml \
 	-f docker-compose.database.yml \
+	-f docker-compose.client.yml \
 	up --build
 
 svc:
