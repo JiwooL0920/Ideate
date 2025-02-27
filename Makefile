@@ -14,7 +14,6 @@ all:
 	-f docker-compose.controller.yml \
 	-f docker-compose.dev.yml \
 	-f docker-compose.database.yml \
-	-f docker-compose.client.yml \
 	up --build
 
 dev:

@@ -5,12 +5,15 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from config.settings import settings
+
 from api.modules.SSE import sse_router
 from api.modules.ChatApp import chatapp_router
 from api.modules.Auth import auth_router
 
 
-env = os.getenv("ENV", "dev")
+
+env = settings.ENV
 
 app = FastAPI()
 app.include_router(sse_router, prefix="/sse", tags=["SSE"])

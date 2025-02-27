@@ -1,5 +1,3 @@
-import os
-from dotenv import load_dotenv
 
 from logging.config import fileConfig
 
@@ -9,9 +7,10 @@ from sqlalchemy import pool
 from alembic import context
 from database.entities.base import Base
 
-load_dotenv()
-POSTGRES_CONNECTION_STRING=os.getenv("POSTGRES_CONNECTION_STRING")
-POSTGRES_SCHEMA=os.getenv("POSTGRES_SCHEMA")
+from config.settings import settings
+
+POSTGRES_CONNECTION_STRING = settings.POSTGRES_CONNECTION_STRING
+POSTGRES_SCHEMA = settings.POSTGRES_SCHEMA
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
