@@ -10,7 +10,7 @@ from api.modules.ChatApp import chatapp_router
 from api.modules.Auth import auth_router
 
 
-env = os.getenv("ENV", "local")
+env = os.getenv("ENV", "dev")
 
 app = FastAPI()
 app.include_router(sse_router, prefix="/sse", tags=["SSE"])

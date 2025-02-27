@@ -6,6 +6,9 @@ clean:
 	# docker rmi -f $$(docker images -a -q) && \
 	# docker image prune -f
 
+vars:
+	bash scripts/export_env.sh
+
 all:
 	docker-compose \
 	-f docker-compose.controller.yml \
