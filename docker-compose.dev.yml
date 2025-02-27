@@ -9,5 +9,4 @@ services:
         uvicorn --host 0.0.0.0 api.server.main:app --port 8000 --reload
     volumes:
       # mount the local repo in the container
-      # - ${LOCAL_REPO_PATH}:/app
-      - /home/jiwool0920/Ideate:/app
+      - ${LOCAL_REPO_PATH}:/app
