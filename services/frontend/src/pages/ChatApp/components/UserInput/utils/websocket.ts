@@ -1,5 +1,6 @@
 import { baseURL } from '../../../../../constants/requests';
 import { WebSocketRequest, WebSocketResponse } from './interface';
+import { Message } from '../../../../../redux/slices/chatAppSlice';
 
 class WebSocketService {
     private ws: WebSocket | null = null;
@@ -33,10 +34,8 @@ class WebSocketService {
                 };
 
                 this.ws.onmessage = (event) => {
-                    console.log('Received message:', event.data);
                     const response: WebSocketResponse = JSON.parse(event.data);
                     console.log('Received response:', response);
-                    // Disconnect after receiving response
                     this.disconnect();
                 };
             } catch (error) {
@@ -46,7 +45,7 @@ class WebSocketService {
         });
     }
 
-    public async send(request: WebSocketRequest): Promise<void> {
+    public async send(request: WebSocketRequest, onResponse: (message: Message) => void): Promise<void> {
         try {
             if (!this.ws) {
                 await this.connect();
@@ -55,6 +54,24 @@ class WebSocketService {
             if (this.ws && this.ws.readyState === WebSocket.OPEN) {
                 console.log('Sending request:', request);
                 this.ws.send(JSON.stringify(request));
+                
+                // Set up message handler for this specific request
+                this.ws.onmessage = (event) => {
+                    const response: WebSocketResponse = JSON.parse(event.data);
+                    console.log('Received response:', response);
+                    
+                    // Create message object and call callback
+                    const message: Message = {
+                        messageId: request.messageId,
+                        userId: request.userId,
+                        question: request.question,
+                        answer: response.answer,
+                        status: 'completed'
+                    };
+                    onResponse(message);
+                    
+                    this.disconnect();
+                };
             } else {
                 throw new Error('WebSocket is not connected');
             }

@@ -1,55 +1,56 @@
 import { FC } from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
+import PersonIcon from '@mui/icons-material/Person';
 import { Message } from '../../../../redux/slices/chatAppSlice';
 
-interface ResponseProps {
+interface QuestionProps {
     message: Message;
 }
 
-const Response: FC<ResponseProps> = ({ message }) => {
+const Question: FC<QuestionProps> = ({ message }) => {
     return (
         <Box sx={{ 
             display: 'flex', 
             gap: 2, 
             mb: 2,
-            justifyContent: 'flex-start'
+            justifyContent: 'flex-end'
         }}>
-            <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                <SmartToyIcon />
-            </Avatar>
             <Box sx={{ 
                 maxWidth: '70%',
-                backgroundColor: 'grey.100',
-                color: 'text.primary',
-                borderRadius: '20px 20px 20px 0',
+                backgroundColor: 'primary.main',
+                color: 'white',
+                borderRadius: '20px 20px 0 20px',
                 padding: '12px 16px',
                 position: 'relative',
                 wordBreak: 'break-word',
                 '&::before': {
                     content: '""',
                     position: 'absolute',
-                    left: 0,
+                    right: 0,
                     bottom: 0,
                     width: '20px',
                     height: '20px',
-                    backgroundColor: 'grey.100',
-                    borderRadius: '0 20px 20px 0',
+                    backgroundColor: 'primary.main',
+                    borderRadius: '20px 0 0 0',
                 }
             }}>
                 <Typography 
-                    variant="body1"
+                    variant="body1" 
                     sx={{ 
                         whiteSpace: 'pre-wrap',
                         wordBreak: 'break-word',
-                        overflowWrap: 'break-word'
+                        overflowWrap: 'break-word',
+                        textAlign: 'left'
                     }}
                 >
-                    {message.answer || 'Thinking...'}
+                    {message.question}
                 </Typography>
             </Box>
+            <Avatar sx={{ bgcolor: 'primary.main' }}>
+                <PersonIcon />
+            </Avatar>
         </Box>
     );
 };
 
-export default Response;
+export default Question; 
