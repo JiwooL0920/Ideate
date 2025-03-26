@@ -6,8 +6,8 @@ services:
     image: client 
     ports:
       - "3000:3000"
-    depends_on:
-      - controller 
-    links:
-      - controller 
+    # depends_on:
+    #   - controller 
+    # links:
+    #   - controller 
 

@@ -20,12 +20,12 @@ class Settings(BaseSettings):
     TEST_MODE: bool = False
 
     PROJECT_NAME: str = os.getenv("PROJECT_NAME")
-    LOCAL_REPO_PATH: str = os.getenv("LOCAL_REPO_PATH")
+    LOCAL_REPO_PATH: Optional[str] = os.getenv("LOCAL_REPO_PATH")
 
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST")
     POSTGRES_PORT: int = os.getenv("POSTGRES_PORT", 5432)
     POSTGRES_DB: str = os.getenv("POSTGRES_DB")
-    POSTGRES_SCHEMA: str = os.getenv("POSTGRES_SCHEMA", "dev")
+    IDEATE_SCHEMA: str = os.getenv("IDEATE_SCHEMA", "dev")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
 
