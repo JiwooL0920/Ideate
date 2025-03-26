@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Box, Typography, Avatar } from '@mui/material';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Box, Typography } from '@mui/material';
 import { Message } from '../../../../redux/slices/chatAppSlice';
 
 interface ResponseProps {
@@ -10,39 +9,26 @@ interface ResponseProps {
 const Response: FC<ResponseProps> = ({ message }) => {
     return (
         <Box sx={{ 
-            display: 'flex', 
-            gap: 2, 
-            mb: 2,
-            justifyContent: 'flex-start'
+            display: 'flex',
+            justifyContent: 'flex-start',
+            px: 2
         }}>
-            <Avatar sx={{ bgcolor: 'secondary.main' }}>
-                <SmartToyIcon />
-            </Avatar>
-            <Box sx={{ 
-                maxWidth: '70%',
-                backgroundColor: 'grey.100',
-                color: 'text.primary',
-                borderRadius: '20px 20px 20px 0',
-                padding: '12px 16px',
-                position: 'relative',
-                wordBreak: 'break-word',
-                '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    width: '20px',
-                    height: '20px',
-                    backgroundColor: 'grey.100',
-                    borderRadius: '0 20px 20px 0',
-                }
+            <Box sx={{
+                backgroundColor: '#343541',
+                borderRadius: '25px',
+                padding: '12px 18px',
+                maxWidth: '65%'
             }}>
                 <Typography 
                     variant="body1"
                     sx={{ 
+                        color: 'white',
                         whiteSpace: 'pre-wrap',
                         wordBreak: 'break-word',
-                        overflowWrap: 'break-word'
+                        overflowWrap: 'break-word',
+                        lineHeight: 1.5,
+                        fontSize: '1.1rem',
+                        textAlign: 'left'
                     }}
                 >
                     {message.answer || 'Thinking...'}

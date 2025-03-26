@@ -45,20 +45,66 @@ const UserInput: FC = () => {
     };
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', gap: 1 }}>
+        <Box 
+            component="form" 
+            onSubmit={handleSubmit} 
+            sx={{ 
+                display: 'flex',
+                gap: 1,
+                backgroundColor: '#343541',
+                borderRadius: '20px',
+                padding: '10px 16px',
+                width: '100%',
+                alignItems: 'center'
+            }}
+        >
             <TextField
                 fullWidth
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Type your message..."
-                variant="outlined"
+                variant="standard"
+                multiline
+                maxRows={4}
+                InputProps={{
+                    disableUnderline: true,
+                    sx: {
+                        color: 'white',
+                        padding: '8px 12px',
+                        fontSize: '16px',
+                        '&::placeholder': {
+                            color: 'rgba(255,255,255,0.5)'
+                        }
+                    }
+                }}
+                sx={{
+                    '& .MuiInputBase-root': {
+                        backgroundColor: 'transparent'
+                    }
+                }}
             />
             <IconButton 
                 type="submit" 
                 color="primary" 
                 disabled={!message.trim()}
+                sx={{
+                    backgroundColor: message.trim() ? '#10A37F' : 'transparent',
+                    borderRadius: '12px',
+                    padding: '8px',
+                    minWidth: '40px',
+                    height: '40px',
+                    '&:hover': {
+                        backgroundColor: message.trim() ? '#0E906F' : 'transparent'
+                    },
+                    '&.Mui-disabled': {
+                        backgroundColor: 'transparent'
+                    }
+                }}
             >
-                <SendIcon />
+                <SendIcon sx={{ 
+                    color: message.trim() ? 'white' : 'rgba(255,255,255,0.4)',
+                    fontSize: '20px'
+                }} />
             </IconButton>
         </Box>
     );
