@@ -1,22 +1,23 @@
-
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from database.entities.base import Base
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
 
+from database.entities.base import Base
 from config.settings import settings
 
 POSTGRES_CONNECTION_STRING = settings.POSTGRES_CONNECTION_STRING
-POSTGRES_SCHEMA = settings.POSTGRES_SCHEMA
+schema_name = settings.IDEATE_SCHEMA
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
 config.set_main_option("sqlalchemy.url", POSTGRES_CONNECTION_STRING)
-schema_name = POSSTGRES_SCHEMA
 
 # print("POSTGRES_CONNECTION_STRING", POSTGRES_CONNECTION_STRING)
 # print("schema_name", schema_name)

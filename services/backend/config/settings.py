@@ -39,3 +39,4 @@ class Settings(BaseSettings):
 
 # initialize once
 settings = Settings()
+print(settings.POSTGRES_CONNECTION_STRING)
