@@ -48,20 +48,20 @@ class WebSocketService {
         });
     }
 
-    public async send(message: string): Promise<void> {
+    public async send(question: string): Promise<void> {
         try {
             if (!this.ws) {
                 await this.connect();
             }
 
             if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-                console.log('Sending message:', message);
-                this.ws.send(message);
+                console.log('Sending question:', question);
+                this.ws.send(question);
             } else {
                 throw new Error('WebSocket is not connected');
             }
         } catch (error) {
-            console.error('Error sending message:', error);
+            console.error('Error sending question:', error);
             throw error;
         }
     }

@@ -35,27 +35,25 @@ async def handle_websocket(websocket: WebSocket):
         # Accept the connection first
         await websocket.accept()
         
-        # Wait for the first message which should contain user_id
+        # Wait for the message
         data = await websocket.receive_text()
         message_data = json.loads(data)
         
-        if message_data.get("type") == "message":
-            user_id = message_data.get("userId")
-            if not user_id:
-                user_id = str(uuid.uuid4())
-            
-            # Simulate processing delay
-            await asyncio.sleep(3)
-            
-            # Send dummy response
-            await websocket.send_text(json.dumps({
-                "type": "message",
-                "userId": user_id,
-                "content": "dummy response"
-            }))
-            
-            # Close the connection after sending response
-            await websocket.close()
+        user_id = message_data.get("userId")
+        if not user_id:
+            user_id = str(uuid.uuid4())
+        
+        # Simulate processing delay
+        await asyncio.sleep(3)
+        
+        # Send dummy response
+        await websocket.send_text(json.dumps({
+            "question": message_data.get("question", ""),
+            "answer": "dummy response"
+        }))
+        
+        # Close the connection after sending response
+        await websocket.close()
 
     except Exception as e:
         print(f"Error in WebSocket handler: {e}")

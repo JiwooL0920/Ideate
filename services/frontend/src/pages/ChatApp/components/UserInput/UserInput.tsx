@@ -14,9 +14,8 @@ const UserInput: FC = () => {
             setIsSending(true);
             try {
                 await websocketService.send(JSON.stringify({
-                    type: 'message',
                     userId: settings.DUMMY_USER_ID,
-                    content: message
+                    question: message
                 }));
                 setMessage('');
             } catch (error) {
