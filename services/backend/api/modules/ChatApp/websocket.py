@@ -48,6 +48,7 @@ async def handle_websocket(websocket: WebSocket):
         
         # Send dummy response
         await websocket.send_text(json.dumps({
+            "messageId": message_data.get("messageId", ""),
             "question": message_data.get("question", ""),
             "answer": "dummy response"
         }))

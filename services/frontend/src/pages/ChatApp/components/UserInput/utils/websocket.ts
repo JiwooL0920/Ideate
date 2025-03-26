@@ -1,4 +1,5 @@
 import { baseURL } from '../../../../../constants/requests';
+import { WebSocketRequest, WebSocketResponse } from './interface';
 
 class WebSocketService {
     private ws: WebSocket | null = null;
@@ -33,13 +34,10 @@ class WebSocketService {
 
                 this.ws.onmessage = (event) => {
                     console.log('Received message:', event.data);
-                    const response = JSON.parse(event.data);
-                    if (response.type === 'message') {
-                        // Handle the response here
-                        console.log('Received response:', response);
-                        // Disconnect after receiving response
-                        this.disconnect();
-                    }
+                    const response: WebSocketResponse = JSON.parse(event.data);
+                    console.log('Received response:', response);
+                    // Disconnect after receiving response
+                    this.disconnect();
                 };
             } catch (error) {
                 console.error('Error creating WebSocket:', error);
@@ -48,20 +46,20 @@ class WebSocketService {
         });
     }
 
-    public async send(question: string): Promise<void> {
+    public async send(request: WebSocketRequest): Promise<void> {
         try {
             if (!this.ws) {
                 await this.connect();
             }
 
             if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-                console.log('Sending question:', question);
-                this.ws.send(question);
+                console.log('Sending request:', request);
+                this.ws.send(JSON.stringify(request));
             } else {
                 throw new Error('WebSocket is not connected');
             }
         } catch (error) {
-            console.error('Error sending question:', error);
+            console.error('Error sending request:', error);
             throw error;
         }
     }
