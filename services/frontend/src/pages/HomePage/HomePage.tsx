@@ -11,7 +11,7 @@ const HomePage = () => {
   return (
     <Container maxWidth="xl">
       <Box sx={{ py: 4 }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '32px' }}>This is the Home Page</h1>
+        <h1 style={{ textAlign: 'center', marginBottom: '32px' }}>Welcome to Ideate!</h1>
         <Grid
           container
           spacing={0} // Reset the built-in spacing
@@ -31,6 +31,8 @@ const HomePage = () => {
           }}
         >
           {routes.map((route) => {
+            if (route.name === "HomePage") return null;
+            
             const props: itemCardProps = {
               path: route.path,
               name: route.name,

@@ -125,8 +125,17 @@ const PokeGPT: FC = () => {
                             textAlign: 'center',
                             px: 2
                         }}>
-                            <Typography variant="h4" sx={{ mb: 2, color: 'white' }}>
-                                AI Assistant
+                            <Typography variant="h4" sx={{ mb: 2, color: 'white', mt: -15 }}>
+                                <Box sx={{ mb: 3 }}>
+                                    <img 
+                                        src="https://loodibee.com/wp-content/uploads/Pokemon-Symbol-logo.png"
+                                        alt="Pokemon Logo"
+                                        style={{ width: '100px', height: 'auto' }}
+                                    />
+                                </Box>
+                                PokeGPT
+                                <br />
+                                <Typography variant="h6">AI Assistant</Typography>
                             </Typography>
                             <Typography variant="body1">
                                 How can I help you today?

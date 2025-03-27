@@ -18,23 +18,23 @@ export const ItemCard = (props: itemCardProps) => {
 
   return (
     <div onClick={() => navigate(props.path)}>
-      <Card sx={{ width: 345, height: 350 }}>
+      <Card sx={{ width: 345, minHeight: 350 }}>
         <CardActionArea sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
           <CardMedia
             component="img"
             sx={{
-              height: 250,  // Fixed height for the image
-              objectFit: 'contain', // Ensures the whole image is visible without distortion
-              width: '100%', // Image takes up full width of the card
+              height: 200,  // Slightly reduced image height
+              objectFit: 'contain',
+              width: '100%',
             }}
             image={props.img}
             alt={props.name}
           />
-          <CardContent sx={{ flexGrow: 1 }}>
-            <Typography gutterBottom variant="h5" component="div">
+          <CardContent sx={{ flexGrow: 1, p: 3 }}>
+            <Typography gutterBottom variant="h5" component="div" sx={{ mb: 1 }}>
               {props.name}
             </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left' }}>
               {props.description}
             </Typography>
           </CardContent>
