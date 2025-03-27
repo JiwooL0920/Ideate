@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Box, TextField, IconButton } from '@mui/material';
+import { Box, TextField, IconButton, useTheme } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch } from 'react-redux';
 import { websocketService } from './utils/websocket';
@@ -12,6 +12,7 @@ import { Message } from '../../../../redux/slices/pokegptSlice';
 const UserInput: FC = () => {
     const [message, setMessage] = useState('');
     const dispatch = useDispatch();
+    const theme = useTheme();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -51,7 +52,7 @@ const UserInput: FC = () => {
             sx={{ 
                 display: 'flex',
                 gap: 1,
-                backgroundColor: '#343541',
+                backgroundColor: theme.palette.mode === 'dark' ? '#343541' : '#f0f0f0',
                 borderRadius: '20px',
                 padding: '10px 16px',
                 width: '100%',
@@ -69,11 +70,11 @@ const UserInput: FC = () => {
                 InputProps={{
                     disableUnderline: true,
                     sx: {
-                        color: 'white',
+                        color: 'text.primary',
                         padding: '8px 12px',
                         fontSize: '16px',
                         '&::placeholder': {
-                            color: 'rgba(255,255,255,0.5)'
+                            color: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.5)'
                         }
                     }
                 }}
@@ -102,7 +103,7 @@ const UserInput: FC = () => {
                 }}
             >
                 <SendIcon sx={{ 
-                    color: message.trim() ? 'white' : 'rgba(255,255,255,0.4)',
+                    color: message.trim() ? 'white' : theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)',
                     fontSize: '20px'
                 }} />
             </IconButton>

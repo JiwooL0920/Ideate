@@ -5,7 +5,7 @@ import * as sseSlice from '../../redux/slices/sseSlice';
 import NumberDropdown from './components/NumberDropdown';
 import SubmitButton from './components/SubmitButton';
 import TimesTable from './components/TimesTable';
-
+import { Container, Box, Typography } from '@mui/material';
 
 const SSE = () => {
     const sseState = useSelector<RootState, sseSlice.SSEState>(state => state.sse);
@@ -16,15 +16,25 @@ const SSE = () => {
     };
 
     return (
-        <div>
-            <h1>This is SSE page</h1>
-            <NumberDropdown 
-                value={sseState.number}
-                onChange={handleNumberChange}
-            />
-            <SubmitButton />
-            <TimesTable />
-        </div>
+        <Container maxWidth="xl">
+            <Box sx={{ 
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                pt: 4,
+                gap: 2
+            }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    This is SSE page
+                </Typography>
+                <NumberDropdown 
+                    value={sseState.number}
+                    onChange={handleNumberChange}
+                />
+                <SubmitButton />
+                <TimesTable />
+            </Box>
+        </Container>
     );
 };
 

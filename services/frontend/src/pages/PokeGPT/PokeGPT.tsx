@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Box, Typography, Container, IconButton, Avatar } from '@mui/material';
+import { Box, Typography, Container, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
@@ -8,11 +8,12 @@ import Response from './components/Response/Response';
 import Question from './components/Question/Question';
 import { RootState } from '../../redux/store';
 import { Message } from '../../redux/slices/pokegptSlice';
-import PersonIcon from '@mui/icons-material/Person';
+import { useTheme } from '@mui/material/styles';
 
 const PokeGPT: FC = () => {
     const { messageIds, messages } = useSelector((state: RootState) => state.pokegpt);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const theme = useTheme();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -22,26 +23,9 @@ const PokeGPT: FC = () => {
         <Box sx={{ 
             display: 'flex', 
             height: '100vh',
-            backgroundColor: '#202123',
+            backgroundColor: 'background.default',
             position: 'relative'
         }}>
-            <Box sx={{
-                position: 'absolute',
-                top: 16,
-                right: 16,
-                zIndex: 1000
-            }}>
-                <Avatar 
-                    sx={{ 
-                        bgcolor: '#5436DA',
-                        width: 32,
-                        height: 32,
-                        cursor: 'pointer'
-                    }}
-                >
-                    <PersonIcon />
-                </Avatar>
-            </Box>
             {/* Toggle Button */}
             <IconButton
                 onClick={toggleSidebar}
@@ -49,7 +33,7 @@ const PokeGPT: FC = () => {
                     position: 'absolute',
                     top: 12,
                     left: 12,
-                    color: 'white',
+                    color: 'text.primary',
                     zIndex: 1200,
                     display: { xs: 'block', md: 'block' }
                 }}
@@ -60,9 +44,9 @@ const PokeGPT: FC = () => {
             {/* Sidebar */}
             <Box sx={{ 
                 width: 260,
-                backgroundColor: '#202123',
+                backgroundColor: theme.palette.mode === 'dark' ? '#343541' : '#f0f0f0',
                 borderRight: 1,
-                borderColor: 'rgba(255,255,255,0.1)',
+                borderColor: 'divider',
                 p: 2,
                 position: { xs: 'absolute', md: 'fixed' },
                 height: '100%',
@@ -76,7 +60,7 @@ const PokeGPT: FC = () => {
                 transition: 'transform 0.3s ease-in-out',
                 pt: 6
             }}>
-                <Typography variant="h6" sx={{ color: 'white', mb: 3 }}>
+                <Typography variant="h6" sx={{ color: 'text.primary', mb: 3 }}>
                     Chat History
                 </Typography>
             </Box>
@@ -121,11 +105,11 @@ const PokeGPT: FC = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             height: '100%',
-                            color: 'rgba(255,255,255,0.7)',
+                            color: 'text.secondary',
                             textAlign: 'center',
                             px: 2
                         }}>
-                            <Typography variant="h4" sx={{ mb: 2, color: 'white', mt: -15 }}>
+                            <Typography variant="h4" sx={{ mb: 2, color: 'text.primary', mt: -15 }}>
                                 <Box sx={{ mb: 3 }}>
                                     <img 
                                         src="https://loodibee.com/wp-content/uploads/Pokemon-Symbol-logo.png"
@@ -147,7 +131,7 @@ const PokeGPT: FC = () => {
                             return (
                                 <Box key={messageId}>
                                     <Box sx={{ 
-                                        backgroundColor: '#202123',
+                                        backgroundColor: 'background.default',
                                         py: 3,
                                         display: 'flex',
                                         justifyContent: 'center'
@@ -161,7 +145,7 @@ const PokeGPT: FC = () => {
                                         </Box>
                                     </Box>
                                     <Box sx={{ 
-                                        backgroundColor: '#202123',
+                                        backgroundColor: 'background.default',
                                         py: 3,
                                         display: 'flex',
                                         justifyContent: 'center'
@@ -183,7 +167,7 @@ const PokeGPT: FC = () => {
                 {/* Input Area */}
                 <Box sx={{ 
                     p: 2,
-                    backgroundColor: '#202123',
+                    backgroundColor: 'background.default',
                     display: 'flex',
                     justifyContent: 'center'
                 }}>

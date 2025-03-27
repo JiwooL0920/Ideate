@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { Message } from '../../../../redux/slices/pokegptSlice';
 
 interface QuestionProps {
@@ -7,6 +7,8 @@ interface QuestionProps {
 }
 
 const Question: FC<QuestionProps> = ({ message }) => {
+    const theme = useTheme();
+    
     return (
         <Box sx={{ 
             display: 'flex', 
@@ -14,7 +16,7 @@ const Question: FC<QuestionProps> = ({ message }) => {
             px: 2
         }}>
             <Box sx={{
-                backgroundColor: '#343541',
+                backgroundColor: theme.palette.mode === 'dark' ? '#343541' : '#f0f0f0',
                 borderRadius: '25px',
                 padding: '12px 18px',
                 maxWidth: '65%'
@@ -22,7 +24,7 @@ const Question: FC<QuestionProps> = ({ message }) => {
                 <Typography 
                     variant="body1" 
                     sx={{ 
-                        color: 'white',
+                        color: 'text.primary',
                         whiteSpace: 'pre-wrap',
                         wordBreak: 'break-word',
                         overflowWrap: 'break-word',
