@@ -2,12 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 
 // Slices
 import sseSlice from './slices/sseSlice';
-import chatAppSlice from './slices/chatAppSlice';
+import pokegptSlice from './slices/pokegptSlice';
 
 export const store = configureStore({
     reducer: {
         sse: sseSlice,
-        chatApp: chatAppSlice,
+        pokegpt: pokegptSlice,
     },
     middleware: (getDefaultMiddleware) => 
         getDefaultMiddleware({

@@ -7,11 +7,11 @@ import UserInput from './components/UserInput/UserInput';
 import Response from './components/Response/Response';
 import Question from './components/Question/Question';
 import { RootState } from '../../redux/store';
-import { Message } from '../../redux/slices/chatAppSlice';
+import { Message } from '../../redux/slices/pokegptSlice';
 import PersonIcon from '@mui/icons-material/Person';
 
-const ChatApp: FC = () => {
-    const { messageIds, messages } = useSelector((state: RootState) => state.chatApp);
+const PokeGPT: FC = () => {
+    const { messageIds, messages } = useSelector((state: RootState) => state.pokegpt);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -191,4 +191,4 @@ const ChatApp: FC = () => {
     );
 };
 
-export default ChatApp;
+export default PokeGPT; 

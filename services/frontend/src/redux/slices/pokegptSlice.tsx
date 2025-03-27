@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { WebSocketRequest, WebSocketResponse } from '../../pages/ChatApp/components/UserInput/utils/interface';
+import { WebSocketRequest, WebSocketResponse } from '../../pages/PokeGPT/components/UserInput/utils/interface';
 
 // Message interface
 export interface Message {
@@ -11,21 +11,21 @@ export interface Message {
 }
 
 // State
-export interface ChatAppState {
+export interface PokeGPTState {
     messageIds: string[];
     messages: Record<string, Message>;
     isRunning: boolean;
 }
 
-const initialState: ChatAppState = {
+const initialState: PokeGPTState = {
     messageIds: [],
     messages: {},
     isRunning: false,
 };
 
 // Slice
-export const chatAppSlice = createSlice({
-    name: 'chat-app',
+export const pokegptSlice = createSlice({
+    name: 'poke-gpt',
     initialState,
     reducers: {
         addMessage: (state, action: PayloadAction<Message>) => {
@@ -49,6 +49,6 @@ export const {
     updateMessage,
     setRunning,
     reset 
-} = chatAppSlice.actions;
+} = pokegptSlice.actions;
 
-export default chatAppSlice.reducer;
+export default pokegptSlice.reducer;

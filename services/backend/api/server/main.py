@@ -8,8 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from config.settings import settings
 
 from api.modules.SSE import sse_router
-from api.modules.ChatApp import chatapp_router
 from api.modules.Auth import auth_router
+from api.modules.PokeGPT import pokegpt_router
 
 
 
@@ -17,8 +17,8 @@ env = settings.ENV
 
 app = FastAPI()
 app.include_router(sse_router, prefix="/sse", tags=["SSE"])
-app.include_router(chatapp_router, prefix="/chatapp", tags=["ChatApp"])
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+app.include_router(pokegpt_router, prefix="/pokegpt", tags=["PokeGPT"])
 
 origins = ["http://localhost:3000", "http://localhost:3000"]
 

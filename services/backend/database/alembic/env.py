@@ -11,7 +11,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 from database.entities.base import Base
 from config.settings import settings
 
-POSTGRES_CONNECTION_STRING = settings.POSTGRES_CONNECTION_STRING
+POSTGRES_CONNECTION_STRING = settings.get_postgres_connection_string()
 schema_name = settings.IDEATE_SCHEMA
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

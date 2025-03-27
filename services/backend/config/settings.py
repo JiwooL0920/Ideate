@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Optional
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
-load_dotenv(dotenv_path=Path(__file__).parent / ".env")
+load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
 
 # pylint: disable=too-few-public-methods
 class Settings(BaseSettings):
@@ -23,20 +23,24 @@ class Settings(BaseSettings):
     LOCAL_REPO_PATH: Optional[str] = os.getenv("LOCAL_REPO_PATH")
 
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST")
-    POSTGRES_PORT: int = os.getenv("POSTGRES_PORT", 5432)
+    POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", "5432"))
     POSTGRES_DB: str = os.getenv("POSTGRES_DB")
     IDEATE_SCHEMA: str = os.getenv("IDEATE_SCHEMA", "dev")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
 
-    POSTGRES_CONNECTION_STRING: str = os.getenv("POSTGRES_CONNECTION_STRING")
-    ASYNC_POSTGRES_CONNECTION_STRING: str = os.getenv("ASYNC_POSTGRES_CONNECTION_STRING")
+    def get_postgres_connection_string(self) -> str:
+        """Get the PostgreSQL connection string with expanded variables"""
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+    def get_async_postgres_connection_string(self) -> str:
+        """Get the async PostgreSQL connection string with expanded variables"""
+        return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
     class Config:
         """Loads the env vars from a dotenv file"""
-
         env_file = ".env"
+        extra = "allow"
 
 # initialize once
 settings = Settings()
-print(settings.POSTGRES_CONNECTION_STRING)

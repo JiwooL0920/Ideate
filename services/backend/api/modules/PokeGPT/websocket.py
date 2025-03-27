@@ -1,4 +1,4 @@
-"""WebSocket handler for ChatApp"""
+"""WebSocket handler for PokeGPT"""
 
 from fastapi import WebSocket, WebSocketDisconnect
 from typing import Dict, List

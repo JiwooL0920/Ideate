@@ -1,6 +1,6 @@
 import { baseURL } from '../../../../../constants/requests';
 import { WebSocketRequest, WebSocketResponse } from './interface';
-import { Message } from '../../../../../redux/slices/chatAppSlice';
+import { Message } from '../../../../../redux/slices/pokegptSlice';
 
 class WebSocketService {
     private ws: WebSocket | null = null;
@@ -15,8 +15,8 @@ class WebSocketService {
     private async connect(): Promise<void> {
         return new Promise((resolve, reject) => {
             try {
-                console.log(`Attempting to connect to WebSocket: ws://${baseURL.replace('http://', '')}/chatapp/ws`);
-                this.ws = new WebSocket(`ws://${baseURL.replace('http://', '')}/chatapp/ws`);
+                console.log(`Attempting to connect to WebSocket: ws://${baseURL.replace('http://', '')}/pokegpt/ws`);
+                this.ws = new WebSocket(`ws://${baseURL.replace('http://', '')}/pokegpt/ws`);
                 
                 this.ws.onopen = () => {
                     console.log('WebSocket connected successfully');

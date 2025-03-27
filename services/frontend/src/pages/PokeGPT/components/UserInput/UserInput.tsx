@@ -6,8 +6,8 @@ import { websocketService } from './utils/websocket';
 import { settings } from '../../constants/settings';
 import { WebSocketRequest } from './utils/interface';
 import { generateMessageId } from './utils/utils';
-import { addMessage, updateMessage, setRunning } from '../../../../redux/slices/chatAppSlice';
-import { Message } from '../../../../redux/slices/chatAppSlice';
+import { addMessage, updateMessage, setRunning } from '../../../../redux/slices/pokegptSlice';
+import { Message } from '../../../../redux/slices/pokegptSlice';
 
 const UserInput: FC = () => {
     const [message, setMessage] = useState('');

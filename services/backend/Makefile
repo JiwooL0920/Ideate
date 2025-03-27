@@ -11,10 +11,12 @@ TAG=ideate-be:$(VERSION)
 setup-poetry:
 	# python3 -m venv .venv/ideate
 	# poetry env use $(realpath .venv/ideate/bin/python3.10)
-	poetry install
 
 start-poetry:
-	poetry shell
+	source .venv/bin/activate
+
+pypath:
+	export PYTHONPATH=$PYTHONPATH:$(realpath .)
 
 run:
 	source $(poetry env info --path)/bin/activate
