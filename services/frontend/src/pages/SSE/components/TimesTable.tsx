@@ -12,7 +12,8 @@ import {
   TableRow,
   Paper,
   LinearProgress,
-  Box
+  Box,
+  useTheme
 } from '@mui/material';
 
 interface TableData {
@@ -25,6 +26,7 @@ const TimesTable: React.FC = () => {
   const number = useSelector((state: RootState) => state.sse.number);
   const isStreaming = useSelector((state: RootState) => state.sse.isStreaming);
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   // Add new useEffect to handle number changes
   useEffect(() => {
@@ -105,16 +107,32 @@ const TimesTable: React.FC = () => {
           </Box>
         </Box>
       )}
-      <TableContainer component={Paper}>
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          backgroundColor: theme.palette.background.paper,
+          '& .MuiPaper-root': {
+            backgroundColor: theme.palette.background.paper,
+          }
+        }}
+      >
         <Table size="small" aria-label="multiplication table">
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', bgcolor: 'grey.100' }}>×</TableCell>
+              <TableCell sx={{ 
+                fontWeight: 'bold', 
+                bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : 'grey.100',
+                color: theme.palette.text.primary
+              }}>×</TableCell>
               {columns.map(col => (
                 <TableCell 
                   key={col} 
                   align="center"
-                  sx={{ fontWeight: 'bold', bgcolor: 'grey.100' }}
+                  sx={{ 
+                    fontWeight: 'bold', 
+                    bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : 'grey.100',
+                    color: theme.palette.text.primary
+                  }}
                 >
                   {col}
                 </TableCell>
@@ -123,8 +141,16 @@ const TimesTable: React.FC = () => {
           </TableHead>
           <TableBody>
             {columns.map(row => (
-              <TableRow key={row} sx={{ '&:nth-of-type(odd)': { bgcolor: 'grey.50' } }}>
-                <TableCell sx={{ fontWeight: 'bold', bgcolor: 'grey.100' }}>
+              <TableRow key={row} sx={{ 
+                '&:nth-of-type(odd)': { 
+                  bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : 'grey.50'
+                }
+              }}>
+                <TableCell sx={{ 
+                  fontWeight: 'bold', 
+                  bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : 'grey.100',
+                  color: theme.palette.text.primary
+                }}>
                   {row}
                 </TableCell>
                 {columns.map(col => (
@@ -133,7 +159,10 @@ const TimesTable: React.FC = () => {
                     align="center"
                     sx={{ 
                       transition: 'background-color 0.3s',
-                      bgcolor: tableData[row]?.[col] ? 'inherit' : 'grey.50'
+                      bgcolor: tableData[row]?.[col] 
+                        ? theme.palette.mode === 'dark' ? 'grey.800' : 'inherit'
+                        : theme.palette.mode === 'dark' ? 'grey.900' : 'grey.50',
+                      color: theme.palette.text.primary
                     }}
                   >
                     {tableData[row]?.[col] || ''}
