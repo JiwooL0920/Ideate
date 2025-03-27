@@ -7,13 +7,14 @@ authors = ["jiwool0920 <jiwool0920@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 fastapi = "^0.115.8"
-uvicorn = "^0.34.0"
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
 alembic = "^1.14.1"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.10"
 asyncpg = "^0.30.0"
 dotenv = "^0.9.9"
 pydantic-settings = "^2.8.1"
+websockets = "^12.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

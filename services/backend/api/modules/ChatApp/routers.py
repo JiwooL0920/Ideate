@@ -1,11 +1,12 @@
 """API Endpoints for ChatApp"""
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, WebSocket
 from typing import List
 from uuid import UUID
 
 from .service import ChatAppServiceDep
 from .models import SessionResponse
+from .websocket import handle_websocket
 
 router = APIRouter(prefix="", tags=["ChatApp"])
 
@@ -13,6 +14,11 @@ router = APIRouter(prefix="", tags=["ChatApp"])
 @router.get("/health")
 def chatapp_health(request: Request):
     return {"message": "ChatApp API"}
+
+
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await handle_websocket(websocket)
 
 
 @router.get("/sessions", response_model=List[SessionResponse])
